@@ -25,19 +25,15 @@ To work around this, you need to add code to programmatically catch and log your
 To log exceptions in your visual add the following code to your visual to define an exception logging decorator:
 
 ```typescript
-module powerbi.extensibility.visual {
-    export function logExceptions(): MethodDecorator {
-        return function (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>)
-        : TypedPropertyDescriptor<Function> {
-            
-            return {
-                value: function () {
-                    try {
-                        return descriptor.value.apply(this, arguments);
-                    } catch (e) {
-                        console.error(e);
-                        throw e;
-                    }
+export function logExceptions(): MethodDecorator {
+    return function (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {
+        return {
+            value: function () {
+                try {
+                    return descriptor.value.apply(this, arguments);
+                } catch (e) {
+                    console.error(e);
+                    throw e;
                 }
             }
         }
